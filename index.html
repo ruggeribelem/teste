@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>RUGGERI TRAINING</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff5e00;
+            --secondary: #ff2200;
+            --dark: #1a1a1a;
+            --light: #f8f8f8;
+            --accent: #ffbb00;
+            --metal: linear-gradient(135deg, #c0c0c0, #a0a0a0, #c0c0c0);
+            --bg-color: var(--dark);
+            --text-color: var(--light);
+            --header-bg: rgba(0, 0, 0, 0.7);
+            --content-bg: rgba(10, 10, 10, 0.85);
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --completed-color: #888;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Oswald', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image: url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            flex: 1;
+        }
+        
+        header {
+            background-color: var(--header-bg);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .title-container {
+            display: inline-block;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .mosaic-title {
+            display: inline-block;
+        }
+        
+        .mosaic-title span {
+            display: inline-block;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .mosaic-title:hover span {
+            animation: letter-pop 0.5s ease forwards;
+        }
+        
+        @keyframes letter-pop {
+            0% {
+                transform: translateY(0) rotate(0);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0);
+            }
+        }
+        
+        .enhanced-title {
+            animation: float 4s ease-in-out infinite;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            color: var(--primary);
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 0 var(--secondary),
+                         4px 4px 0 rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        .enhanced-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.7;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            color: var(--light);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        /* Weight and Timer Section */
+        .trackers-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .weight-tracker, .timer-tracker {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .weight-tracker {
+            border-left: 4px solid var(--accent);
+        }
+        
+        .timer-tracker {
+            border-left: 4px solid var(--primary);
+        }
+        
+        .weight-tracker h3, .timer-tracker h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .weight-tracker h3 i, .timer-tracker h3 i {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        
+        .weight-display, .timer-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--primary);
+            font-family: 'Bebas Neue', cursive;
+        }
+        
+        .weight-history {
+            margin-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        
+        .weight-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px dashed rgba(255, 94, 0, 0.3);
+        }
+        
+        .weight-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .weight-date {
+            color: var(--completed-color);
+            font-size: 0.8rem;
+        }
+        
+        .weight-value {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .delete-weight {
+            color: var(--secondary);
+            cursor: pointer;
+            margin-left: 10px;
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+        }
+        
+        .quick-time-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        .quick-time-btn {
+            padding: 5px 8px;
+            font-size: 0.8rem;
+            background: rgba(255, 94, 0, 0.3);
+            color: var(--light);
+            border: 1px solid var(--primary);
+            border-radius: 5px;
+            min-width: 40px;
+            cursor: pointer;
+        }
+        
+        .quick-time-btn:hover {
+            background: var(--primary);
+            color: #000;
+        }
+        
+        .timer-active {
+            background-color: var(--secondary);
+            border-color: var(--accent);
+        }
+        
+        .timer-active .timer-display {
+            color: var(--accent);
+            text-shadow: 0 0 8px rgba(255, 187, 0, 0.7);
+        }
+        
+        /* Abas reorganizadas em 2 linhas */
+        .tabs-container {
+            margin-bottom: 15px;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid var(--primary);
+            justify-content: center;
+        }
+        
+        .tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            background: linear-gradient(to bottom, #333, #222);
+            border: 2px solid var(--primary);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+            color: var(--light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+            font-size: 0.8rem;
+            flex-grow: 1;
+            text-align: center;
+            justify-content: center;
+            max-width: calc(50% - 3px);
+        }
+        
+        .tab:hover {
+            background: linear-gradient(to bottom, #444, #333);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .tab.active {
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 15px rgba(255, 94, 0, 0.6),
+                        inset 0 0 10px rgba(255, 187, 0, 0.4);
+            color: #000;
+            font-weight: 700;
+        }
+        
+        .tab i {
+            font-size: 0.9rem;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px;
+            background: var(--content-bg);
+            border: 3px solid var(--primary);
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            margin-top: 5px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .muscle-groups {
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .muscle-groups h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .muscle-groups h3 i {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        
+        .workout-list {
+            margin-top: 12px;
+        }
+        
+        .workout {
+            background-color: var(--card-bg);
+            border: 1px solid var(--primary);
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .workout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 94, 0, 0.3);
+        }
+        
+        .workout-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent);
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 1px;
+        }
+        
+        .exercise {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 5px;
+            border-bottom: 1px dashed rgba(255, 94, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .exercise:hover {
+            background: rgba(255, 94, 0, 0.1);
+        }
+        
+        .exercise:last-child {
+            border-bottom: none;
+        }
+        
+        .exercise-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .exercise-name {
+            font-weight: bold;
+            flex: 1 1 100%;
+            font-size: 0.95rem;
+        }
+        
+        .exercise-sets-reps {
+            display: flex;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            background: rgba(255, 94, 0, 0.2);
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        
+        .exercise-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            background-color: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .exercise-checkbox:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .exercise-checkbox:checked::after {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .exercise-checkbox:disabled {
+            opacity: 1;
+            cursor: default;
+        }
+        
+        .exercise-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        /* Exercício concluído */
+        .exercise.completed {
+            position: relative;
+        }
+        
+        .exercise.completed::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 34, 0, 0.1);
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .exercise.completed .exercise-name,
+        .exercise.completed .exercise-sets-reps {
+            opacity: 0.7;
+            text-decoration: line-through;
+        }
+        
+        .btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: #000;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent);
+        }
+        
+        .btn-danger {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-warning {
+            background-color: #f39c12;
+            color: #000;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+        
+        .btn-small {
+            padding: 5px 8px;
+            font-size: 0.8rem;
+        }
+        
+        .add-workout {
+            margin-top: 12px;
+            padding: 8px 12px;
+            width: 100%;
+        }
+        
+        .reset-all-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            margin: 20px auto;
+            cursor: pointer;
+            display: block;
+            width: 200px;
+            max-width: 100%;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .reset-all-btn:hover {
+            background: #e74c3c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .reset-all-btn i {
+            margin-right: 5px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--content-bg);
+            padding: 15px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 3px solid var(--primary);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+        }
+        
+        .modal-header h2 {
+            color: var(--accent);
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 1px;
+            font-size: 1.3rem;
+        }
+        
+        .close-modal {
+            font-size: 1.3rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 8px;
+            background: rgba(40,40,40,0.5);
+            border: 1px solid var(--primary);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+        
+        .exercise-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 8px;
+            border-radius: 5px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .exercise-item input {
+            flex: 2;
+            background: rgba(40,40,40,0.5);
+            border: 1px solid var(--primary);
+            color: var(--text-color);
+        }
+        
+        .exercise-item select {
+            flex: 1;
+            background: rgba(40,40,40,0.5);
+            border: 1px solid var(--primary);
+            color: var(--text-color);
+        }
+        
+        .add-exercise {
+            margin-bottom: 12px;
+            background: var(--primary);
+            color: #000;
+            padding: 6px 12px;
+        }
+        
+        .add-exercise:hover {
+            background: var(--accent);
+        }
+        
+        .rest-day {
+            text-align: center;
+            padding: 30px;
+            color: var(--completed-color);
+            background: var(--card-bg);
+            border-radius: 5px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .rest-day h2 {
+            color: var(--accent);
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+        }
+        
+        /* Estilos para o rastreador GPS */
+        .tracker-container {
+            margin-top: 20px;
+        }
+        
+        .tracker-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .tracker-header {
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+        
+        .tracker-display {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .distance-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .time-display {
+            font-size: 1.2rem;
+            color: var(--light);
+        }
+        
+        .speed-display {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-top: 5px;
+        }
+        
+        .tracker-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .tracker-btn {
+            padding: 10px 20px;
+            min-width: 80px;
+        }
+        
+        .tracker-history {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border-top: 1px dashed rgba(255, 94, 0, 0.3);
+            padding-top: 10px;
+        }
+        
+        .workout-entry {
+            padding: 8px;
+            border-bottom: 1px dashed rgba(255, 94, 0, 0.3);
+        }
+        
+        .workout-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .workout-date {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+        
+        .workout-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .delete-workout {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            cursor: pointer;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 3px solid var(--primary);
+            width: 100%;
+        }
+        
+        .copyright {
+            color: var(--light);
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        
+        .developer {
+            font-size: 0.9rem;
+            color: var(--light);
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        /* Efeito especial para RUGGERI no footer */
+        .ruggeri-name {
+            position: relative;
+            display: inline-block;
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(255, 187, 0, 0.7);
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            margin-left: 5px;
+            animation: pulse 2s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 187, 0, 0.7);
+                transform: scale(1);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 187, 0, 0.9);
+                transform: scale(1.05);
+            }
+            100% {
+                text-shadow: 0 0 10px rgba(255, 187, 0, 0.7);
+                transform: scale(1);
+            }
+        }
+        
+        .ruggeri-name::after {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .ruggeri-name:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Media Queries para responsividade */
+        @media (min-width: 768px) {
+            .enhanced-title {
+                font-size: 3.5rem;
+            }
+            
+            header p {
+                font-size: 1.5rem;
+            }
+            
+            .tabs {
+                gap: 8px;
+                padding: 12px;
+            }
+            
+            .tab {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+                max-width: calc(16.666% - 7px);
+            }
+            
+            .ruggeri-name {
+                font-size: 2rem;
+            }
+            
+            .exercise-checkbox {
+                width: 22px;
+                height: 22px;
+            }
+            
+            .tracker-controls {
+                gap: 15px;
+            }
+            
+            .tracker-btn {
+                padding: 12px 24px;
+                min-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .enhanced-title {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .weight-display, .timer-display {
+                font-size: 1.3rem;
+            }
+            
+            .quick-time-btn {
+                padding: 4px 6px;
+                font-size: 0.7rem;
+                min-width: 35px;
+            }
+            
+            .muscle-groups h3 {
+                font-size: 1rem;
+                padding: 10px;
+            }
+            
+            .workout-title {
+                font-size: 1rem;
+            }
+            
+            .exercise-name {
+                font-size: 0.9rem;
+            }
+            
+            .exercise-sets-reps {
+                font-size: 0.8rem;
+            }
+            
+            .developer {
+                font-size: 0.8rem;
+            }
+            
+            .ruggeri-name {
+                font-size: 1.2rem;
+            }
+
+            /* Melhorias para exercícios em mobile */
+            .exercise {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .exercise-actions {
+                align-self: flex-end;
+                margin-top: 5px;
+            }
+            
+            /* Ajuste nos botões */
+            .btn-small {
+                padding: 4px 6px;
+                font-size: 0.7rem;
+            }
+            
+            /* Ajuste no modal */
+            .modal-content {
+                width: 95%;
+                padding: 10px;
+            }
+            
+            .exercise-item {
+                flex-wrap: wrap;
+            }
+            
+            .exercise-item input,
+            .exercise-item select {
+                min-width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .exercise-item .remove-exercise {
+                margin-left: auto;
+            }
+            
+            .reset-all-btn {
+                width: 100%;
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+            
+            .exercise-checkbox {
+                width: 18px;
+                height: 18px;
+            }
+            
+            /* Ajustes para o rastreador GPS */
+            .tracker-controls {
+                flex-wrap: wrap;
+            }
+            
+            .tracker-btn {
+                flex: 1 1 100%;
+            }
+            
+            .distance-display {
+                font-size: 1.8rem;
+            }
+            
+            .time-display {
+                font-size: 1rem;
+            }
+            
+            .speed-display {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="title-container">
+                <h1 class="enhanced-title mosaic-title">
+                    <span>R</span><span>U</span><span>G</span><span>G</span><span>E</span><span>R</span><span>I</span>
+                    <span> </span>
+                    <span>T</span><span>R</span><span>A</span><span>I</span><span>N</span><span>I</span><span>N</span><span>G</span>
+                </h1>
+            </div>
+            <p>Transforme seu corpo, fortaleça sua mente</p>
+        </header>
+        
+        <!-- Weight and Timer Section -->
+        <div class="trackers-container">
+            <!-- Weight Tracker -->
+            <div class="weight-tracker">
+                <h3><i class="fas fa-weight"></i> Peso Corporal</h3>
+                <div class="weight-display" id="current-weight">-- kg</div>
+                <button class="btn btn-primary" id="add-weight-btn"><i class="fas fa-plus"></i> Registrar</button>
+                <div class="weight-history" id="weight-history">
+                    <!-- Weight history will be added here dynamically -->
+                </div>
+            </div>
+            
+            <!-- Timer -->
+            <div class="timer-tracker" id="timer-container">
+                <h3><i class="fas fa-stopwatch"></i> Timer de Treino</h3>
+                <div class="timer-display" id="timer-display">1:00</div>
+                <div class="quick-time-buttons">
+                    <button class="btn btn-primary quick-time-btn" data-seconds="30">30s</button>
+                    <button class="btn btn-primary quick-time-btn" data-seconds="60">1m</button>
+                    <button class="btn btn-primary quick-time-btn" data-seconds="90">1m30</button>
+                    <button class="btn btn-primary quick-time-btn" data-seconds="120">2m</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabs reorganizadas em 2 linhas -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <div class="tab" data-tab="monday"><i class="fas fa-dumbbell"></i> Seg</div>
+                <div class="tab" data-tab="tuesday"><i class="fas fa-dumbbell"></i> Ter</div>
+                <div class="tab" data-tab="wednesday"><i class="fas fa-dumbbell"></i> Qua</div>
+                <div class="tab" data-tab="thursday"><i class="fas fa-dumbbell"></i> Qui</div>
+                <div class="tab" data-tab="friday"><i class="fas fa-dumbbell"></i> Sex</div>
+                <div class="tab" data-tab="saturday"><i class="fas fa-dumbbell"></i> Sáb</div>
+                <div class="tab" data-tab="sunday"><i class="fas fa-bed"></i> Dom</div>
+            </div>
+        </div>
+        
+        <!-- Segunda-feira -->
+        <div class="tab-content" id="monday">
+            <div class="muscle-groups">
+                <h3><i class="fas fa-fire"></i> Grupos Musculares: Peito + Tríceps + Antebraço</h3>
+            </div>
+            
+            <div class="workout-list" id="monday-workouts">
+                <!-- Workouts will be added here dynamically -->
+            </div>
+            
+            <button class="btn btn-primary add-workout" data-day="monday"><i class="fas fa-plus"></i> Criar Treino</button>
+            <button class="reset-all-btn" data-day="monday"><i class="fas fa-sync-alt"></i> Desmarcar Todos</button>
+        </div>
+        
+        <!-- Terça-feira -->
+        <div class="tab-content" id="tuesday">
+            <div class="muscle-groups">
+                <h3><i class="fas fa-mountain"></i> Grupos Musculares: Costas + Bíceps + Trapézio</h3>
+            </div>
+            
+            <div class="workout-list" id="tuesday-workouts">
+                <!-- Workouts will be added here dynamically -->
+            </div>
+            
+            <button class="btn btn-primary add-workout" data-day="tuesday"><i class="fas fa-plus"></i> Criar Treino</button>
+            <button class="reset-all-btn" data-day="tuesday"><i class="fas fa-sync-alt"></i> Desmarcar Todos</button>
+        </div>
+        
+        <!-- Quarta-feira -->
+        <div class="tab-content" id="wednesday">
+            <div class="muscle-groups">
+                <h3><i class="fas fa-walking"></i> Grupos Musculares: Pernas + Ombros + Antebraço</h3>
+            </div>
+            
+            <div class="workout-list" id="wednesday-workouts">
+                <!-- Workouts will be added here dynamically -->
+            </div>
+            
+            <button class="btn btn-primary add-workout" data-day="wednesday"><i class="fas fa-plus"></i> Criar Treino</button>
+            <button class="reset-all-btn" data-day="wednesday"><i class="fas fa-sync-alt"></i> Desmarcar Todos</button>
+        </div>
+        
+        <!-- Quinta-feira -->
+        <div class="tab-content" id="thursday">
+            <div class="muscle-groups">
+                <h3><i class="fas fa-fire"></i> Grupos Musculares: Peito + Tríceps + Trapézio</h3>
+            </div>
+            
+            <div class="workout-list" id="thursday-workouts">
+                <!-- Workouts will be added here dynamically -->
+            </div>
+            
+            <button class="btn btn-primary add-workout" data-day="thursday"><i class="fas fa-plus"></i> Criar Treino</button>
+            <button class="reset-all-btn" data-day="thursday"><i class="fas fa-sync-alt"></i> Desmarcar Todos</button>
+        </div>
+        
+        <!-- Sexta-feira -->
+        <div class="tab-content" id="friday">
+            <div class="muscle-groups">
+                <h3><i class="fas fa-mountain"></i> Grupos Musculares: Costas + Bíceps + Antebraço</h3>
+            </div>
+            
+            <div class="workout-list" id="friday-workouts">
+                <!-- Workouts will be added here dynamically -->
+            </div>
+            
+            <button class="btn btn-primary add-workout" data-day="friday"><i class="fas fa-plus"></i> Criar Treino</button>
+            <button class="reset-all-btn" data-day="friday"><i class="fas fa-sync-alt"></i> Desmarcar Todos</button>
+        </div>
+        
+        <!-- Sábado -->
+        <div class="tab-content" id="saturday">
+            <div class="muscle-groups">
+                <h3><i class="fas fa-walking"></i> Grupos Musculares: Pernas + Ombros + Trapézio</h3>
+            </div>
+            
+            <div class="workout-list" id="saturday-workouts">
+                <!-- Workouts will be added here dynamically -->
+            </div>
+            
+            <button class="btn btn-primary add-workout" data-day="saturday"><i class="fas fa-plus"></i> Criar Treino</button>
+            <button class="reset-all-btn" data-day="saturday"><i class="fas fa-sync-alt"></i> Desmarcar Todos</button>
+        </div>
+        
+        <!-- Domingo -->
+        <div class="tab-content" id="sunday">
+            <div class="rest-day">
+                <h2><i class="fas fa-bed"></i> Dia de Descanso Ativo</h2>
+                <p>Aproveite para se movimentar com uma caminhada ou corrida!</p>
+            </div>
+            
+            <div class="tracker-container">
+                <div class="tracker-card">
+                    <h3 class="tracker-header"><i class="fas fa-running"></i> Rastreador de Caminhada/Corrida</h3>
+                    
+                    <div class="tracker-display">
+                        <div class="distance-display" id="distance-display">0.00 km</div>
+                        <div class="time-display" id="time-display">00:00:00</div>
+                        <div class="speed-display" id="speed-display">0.0 km/h</div>
+                    </div>
+                    
+                    <div class="tracker-controls">
+                        <button class="btn btn-primary tracker-btn" id="start-tracking">
+                            <i class="fas fa-play"></i> Iniciar
+                        </button>
+                        <button class="btn btn-danger tracker-btn" id="stop-tracking" disabled>
+                            <i class="fas fa-stop"></i> Parar
+                        </button>
+                        <button class="btn btn-warning tracker-btn" id="reset-tracking" disabled>
+                            <i class="fas fa-undo"></i> Zerar
+                        </button>
+                        <button class="btn btn-success tracker-btn" id="save-workout" disabled>
+                            <i class="fas fa-save"></i> Salvar
+                        </button>
+                    </div>
+                    
+                    <div class="tracker-history" id="workout-history">
+                        <!-- Histórico de atividades será adicionado aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="copyright">© 2023 RUGGERI TRAINING - TODOS OS DIREITOS RESERVADOS</div>
+            <div class="developer">DESENVOLVIDO POR <span class="ruggeri-name">RUGGERI</span></div>
+        </footer>
+    </div>
+    
+    <!-- Modal para criar treino -->
+    <div class="modal" id="workout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title"><i class="fas fa-dumbbell"></i> Criar Novo Treino</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <form id="workout-form">
+                <input type="hidden" id="workout-day">
+                <input type="hidden" id="workout-id">
+                
+                <div class="form-group">
+                    <label for="workout-name">Nome do Treino</label>
+                    <input type="text" id="workout-name" required>
+                </div>
+                
+                <div id="exercises-container">
+                    <!-- Exercícios serão adicionados aqui -->
+                </div>
+                
+                <button type="button" class="btn btn-primary btn-small add-exercise" id="add-exercise"><i class="fas fa-plus"></i> Adicionar Exercício</button>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Salvar Treino</button>
+                    <button type="button" class="btn btn-danger close-modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal para registrar peso corporal -->
+    <div class="modal" id="weight-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-weight-hanging"></i> Registrar Peso</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <form id="weight-form">
+                <div class="form-group">
+                    <label for="body-weight">Peso (kg)</label>
+                    <input type="number" id="body-weight" step="0.1" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-danger close-modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Variáveis globais
+        let workouts = JSON.parse(localStorage.getItem('workouts')) || {};
+        let bodyWeights = JSON.parse(localStorage.getItem('bodyWeights')) || [];
+        let timerInterval = null;
+        let timerSeconds = 60;
+        let activeTimer = null;
+        
+        // Variáveis para o rastreador GPS
+        let trackingInterval;
+        let workoutStartTime;
+        let totalDistance = 0; // em metros
+        let positions = [];
+        let savedWorkouts = JSON.parse(localStorage.getItem('runningWorkouts')) || [];
+        let watchId = null;
+        
+        // Inicializar a aplicação
+        document.addEventListener('DOMContentLoaded', function() {
+            loadWorkouts();
+            loadBodyWeights();
+            setupTabs();
+            setupAddWorkoutButtons();
+            setupModals();
+            setupTimer();
+            setupWorkoutForm();
+            setupBodyWeightForm();
+            setupQuickTimeButtons();
+            setupResetButtons();
+            initGPSTracker();
+        });
+        
+        // Carregar treinos salvos
+        function loadWorkouts() {
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            
+            days.forEach(day => {
+                const container = document.getElementById(`${day}-workouts`);
+                container.innerHTML = '';
+                
+                if (workouts[day] && workouts[day].length > 0) {
+                    workouts[day].forEach((workout, workoutIndex) => {
+                        const workoutElement = createWorkoutElement(workout, day, workoutIndex);
+                        container.appendChild(workoutElement);
+                    });
+                } else {
+                    container.innerHTML = '<p>Nenhum treino criado para este dia.</p>';
+                }
+            });
+        }
+        
+        // Carregar histórico de peso corporal
+        function loadBodyWeights() {
+            const weightHistory = document.getElementById('weight-history');
+            weightHistory.innerHTML = '';
+            
+            if (bodyWeights.length === 0) {
+                weightHistory.innerHTML = '<p>Nenhum registro encontrado.</p>';
+                document.getElementById('current-weight').textContent = '-- kg';
+                return;
+            }
+            
+            bodyWeights.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            const latestWeight = bodyWeights[0];
+            document.getElementById('current-weight').textContent = `${latestWeight.weight} kg`;
+            
+            bodyWeights.slice(0, 5).forEach((entry, index) => {
+                const weightEntry = document.createElement('div');
+                weightEntry.className = 'weight-entry';
+                
+                const date = new Date(entry.date);
+                const formattedDate = date.toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                
+                weightEntry.innerHTML = `
+                    <span class="weight-date">${formattedDate}</span>
+                    <div class="weight-actions">
+                        <span class="weight-value">${entry.weight} kg</span>
+                        <button class="delete-weight" data-index="${index}"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                
+                weightHistory.appendChild(weightEntry);
+            });
+            
+            document.querySelectorAll('.delete-weight').forEach(button => {
+                button.addEventListener('click', deleteWeightEntry);
+            });
+        }
+        
+        // Deletar entrada de peso
+        function deleteWeightEntry(e) {
+            const index = e.target.closest('.delete-weight').getAttribute('data-index');
+            
+            if (confirm('Tem certeza que deseja excluir este registro de peso?')) {
+                bodyWeights.splice(index, 1);
+                localStorage.setItem('bodyWeights', JSON.stringify(bodyWeights));
+                loadBodyWeights();
+            }
+        }
+        
+        // Criar elemento HTML para um treino
+        function createWorkoutElement(workout, day, workoutIndex) {
+            const workoutElement = document.createElement('div');
+            workoutElement.className = 'workout';
+            workoutElement.dataset.id = workout.id;
+            
+            let exercisesHTML = '';
+            
+            workout.exercises.forEach((exercise, exerciseIndex) => {
+                const isCompleted = exercise.completed || false;
+                
+                exercisesHTML += `
+                    <div class="exercise ${isCompleted ? 'completed' : ''}" data-exercise-id="${exercise.id}">
+                        <div class="exercise-info">
+                            <span class="exercise-name">${exercise.name}</span>
+                            <span class="exercise-sets-reps">${exercise.sets}x${exercise.reps}</span>
+                        </div>
+                        <div class="exercise-actions">
+                            <input type="checkbox" class="exercise-checkbox" 
+                                ${isCompleted ? 'checked disabled' : ''}
+                                data-day="${day}" 
+                                data-workout-id="${workout.id}"
+                                data-exercise-id="${exercise.id}">
+                        </div>
+                    </div>
+                `;
+            });
+            
+            workoutElement.innerHTML = `
+                <div class="workout-header">
+                    <div class="workout-title">${workout.name}</div>
+                    <div>
+                        <button class="btn btn-small btn-primary edit-workout" 
+                            data-day="${day}" 
+                            data-workout-id="${workout.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-small btn-danger delete-workout" 
+                            data-day="${day}" 
+                            data-workout-id="${workout.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                ${exercisesHTML}
+            `;
+            
+            workoutElement.querySelector('.delete-workout').addEventListener('click', function(e) {
+                e.stopPropagation();
+                deleteWorkout(e);
+            });
+            
+            workoutElement.querySelector('.edit-workout').addEventListener('click', function(e) {
+                e.stopPropagation();
+                editWorkout(e);
+            });
+            
+            workoutElement.querySelectorAll('.exercise-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', toggleExerciseCompletion);
+            });
+            
+            return workoutElement;
+        }
+        
+        // Configurar abas
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    const content = document.getElementById(tabId);
+                    
+                    if (content.classList.contains('active')) {
+                        content.classList.remove('active');
+                        tab.classList.remove('active');
+                        return;
+                    }
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    content.classList.add('active');
+                });
+            });
+            
+            tabContents.forEach(content => content.classList.remove('active'));
+            tabs.forEach(tab => tab.classList.remove('active'));
+        }
+        
+        // Configurar botões de adicionar treino
+        function setupAddWorkoutButtons() {
+            document.querySelectorAll('.add-workout').forEach(button => {
+                button.addEventListener('click', () => {
+                    const day = button.getAttribute('data-day');
+                    openWorkoutModal(day);
+                });
+            });
+        }
+        
+        // Configurar botões de reset
+        function setupResetButtons() {
+            document.querySelectorAll('.reset-all-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const day = this.getAttribute('data-day');
+                    resetAllExercisesForDay(day);
+                });
+            });
+        }
+        
+        // Configurar modais
+        function setupModals() {
+            const workoutModal = document.getElementById('workout-modal');
+            const weightModal = document.getElementById('weight-modal');
+            
+            document.getElementById('add-weight-btn').addEventListener('click', () => {
+                document.getElementById('body-weight').value = '';
+                weightModal.style.display = 'flex';
+            });
+            
+            document.getElementById('add-exercise').addEventListener('click', addExerciseField);
+            
+            document.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', () => {
+                    workoutModal.style.display = 'none';
+                    weightModal.style.display = 'none';
+                });
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === workoutModal) workoutModal.style.display = 'none';
+                if (e.target === weightModal) weightModal.style.display = 'none';
+            });
+        }
+        
+        // Abrir modal de treino
+        function openWorkoutModal(day, workoutId = null) {
+            const modal = document.getElementById('workout-modal');
+            const form = document.getElementById('workout-form');
+            const exercisesContainer = document.getElementById('exercises-container');
+            
+            form.reset();
+            exercisesContainer.innerHTML = '';
+            document.getElementById('workout-day').value = day;
+            
+            if (workoutId) {
+                document.getElementById('modal-title').textContent = 'Editar Treino';
+                document.getElementById('workout-id').value = workoutId;
+                
+                const workout = workouts[day].find(w => w.id === workoutId);
+                if (workout) {
+                    document.getElementById('workout-name').value = workout.name;
+                    
+                    workout.exercises.forEach(exercise => {
+                        addExerciseField(exercise);
+                    });
+                }
+            } else {
+                document.getElementById('modal-title').textContent = 'Criar Novo Treino';
+                document.getElementById('workout-id').value = '';
+                addExerciseField();
+            }
+            
+            modal.style.display = 'flex';
+        }
+        
+        // Configurar formulário de peso corporal
+        function setupBodyWeightForm() {
+            document.getElementById('weight-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const weight = parseFloat(document.getElementById('body-weight').value);
+                const date = new Date().toISOString();
+                
+                bodyWeights.unshift({ weight, date });
+                localStorage.setItem('bodyWeights', JSON.stringify(bodyWeights));
+                loadBodyWeights();
+                document.getElementById('weight-modal').style.display = 'none';
+            });
+        }
+        
+        // Desmarcar todos os exercícios de um dia
+        function resetAllExercisesForDay(day) {
+            if (!workouts[day]) return;
+            
+            workouts[day].forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    exercise.completed = false;
+                });
+            });
+            
+            localStorage.setItem('workouts', JSON.stringify(workouts));
+            loadWorkouts();
+        }
+        
+        // Editar treino existente
+        function editWorkout(e) {
+            const day = e.target.getAttribute('data-day');
+            const workoutId = e.target.getAttribute('data-workout-id');
+            openWorkoutModal(day, workoutId);
+        }
+        
+        // Adicionar campo de exercício
+        function addExerciseField(exercise = null) {
+            const exercisesContainer = document.getElementById('exercises-container');
+            const exerciseId = exercise ? exercise.id : generateId();
+            
+            const exerciseDiv = document.createElement('div');
+            exerciseDiv.className = 'exercise-item';
+            exerciseDiv.dataset.exerciseId = exerciseId;
+            
+            exerciseDiv.innerHTML = `
+                <input type="text" placeholder="Nome do exercício" value="${exercise ? exercise.name : ''}" required>
+                <select required>
+                    <option value="">Séries</option>
+                    ${[1,2,3,4,5].map(n => `<option value="${n}" ${exercise && exercise.sets === n ? 'selected' : ''}>${n}</option>`).join('')}
+                </select>
+                <select required>
+                    <option value="">Reps</option>
+                    ${[6,8,10,12,15].map(n => `<option value="${n}" ${exercise && exercise.reps === n ? 'selected' : ''}>${n}</option>`).join('')}
+                </select>
+                <button type="button" class="btn btn-danger btn-small remove-exercise"><i class="fas fa-times"></i></button>
+            `;
+            
+            exercisesContainer.appendChild(exerciseDiv);
+            exerciseDiv.querySelector('.remove-exercise').addEventListener('click', () => {
+                exercisesContainer.removeChild(exerciseDiv);
+            });
+        }
+        
+        // Configurar formulário de treino
+        function setupWorkoutForm() {
+            document.getElementById('workout-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const day = document.getElementById('workout-day').value;
+                const workoutId = document.getElementById('workout-id').value || generateId();
+                const workoutName = document.getElementById('workout-name').value;
+                const exerciseItems = document.querySelectorAll('.exercise-item');
+                
+                if (exerciseItems.length === 0) {
+                    alert('Adicione pelo menos um exercício!');
+                    return;
+                }
+                
+                let isValid = true;
+                exerciseItems.forEach(item => {
+                    item.querySelectorAll('input, select').forEach(input => {
+                        if (!input.value) isValid = false;
+                    });
+                });
+                
+                if (!isValid) {
+                    alert('Preencha todos os campos dos exercícios!');
+                    return;
+                }
+                
+                const exercises = Array.from(exerciseItems).map(item => {
+                    const inputs = item.querySelectorAll('input, select');
+                    const exerciseId = item.dataset.exerciseId;
+                    const existingExercise = findExerciseById(exerciseId);
+                    
+                    return {
+                        id: exerciseId,
+                        name: inputs[0].value,
+                        sets: parseInt(inputs[1].value),
+                        reps: parseInt(inputs[2].value),
+                        completed: existingExercise ? existingExercise.completed : false
+                    };
+                });
+                
+                const workout = { id: workoutId, name: workoutName, exercises };
+                
+                if (!workouts[day]) workouts[day] = [];
+                
+                if (document.getElementById('workout-id').value) {
+                    const index = workouts[day].findIndex(w => w.id === workoutId);
+                    if (index !== -1) workouts[day][index] = workout;
+                } else {
+                    workouts[day].push(workout);
+                }
+                
+                localStorage.setItem('workouts', JSON.stringify(workouts));
+                loadWorkouts();
+                document.getElementById('workout-modal').style.display = 'none';
+            });
+        }
+        
+        // Encontrar exercício por ID
+        function findExerciseById(exerciseId) {
+            for (const day in workouts) {
+                const workout = workouts[day].find(w => w.exercises.some(ex => ex.id === exerciseId));
+                if (workout) return workout.exercises.find(ex => ex.id === exerciseId);
+            }
+            return null;
+        }
+        
+        // Excluir treino
+        function deleteWorkout(e) {
+            if (!confirm('Tem certeza que deseja excluir este treino?')) return;
+            
+            const button = e.target.closest('.delete-workout');
+            const day = button.getAttribute('data-day');
+            const workoutId = button.getAttribute('data-workout-id');
+            
+            workouts[day] = workouts[day].filter(workout => workout.id !== workoutId);
+            localStorage.setItem('workouts', JSON.stringify(workouts));
+            loadWorkouts();
+        }
+        
+        // Alternar conclusão de exercício
+        function toggleExerciseCompletion(e) {
+            const checkbox = e.target;
+            const day = checkbox.getAttribute('data-day');
+            const workoutId = checkbox.getAttribute('data-workout-id');
+            const exerciseId = checkbox.getAttribute('data-exercise-id');
+            
+            const workoutIndex = workouts[day].findIndex(w => w.id === workoutId);
+            if (workoutIndex === -1) return;
+            
+            const exerciseIndex = workouts[day][workoutIndex].exercises.findIndex(ex => ex.id === exerciseId);
+            if (exerciseIndex === -1) return;
+            
+            workouts[day][workoutIndex].exercises[exerciseIndex].completed = true;
+            localStorage.setItem('workouts', JSON.stringify(workouts));
+            
+            checkbox.disabled = true;
+            const exerciseElement = checkbox.closest('.exercise');
+            if (exerciseElement) {
+                exerciseElement.classList.add('completed');
+            }
+        }
+        
+        // Configurar timer
+        function setupTimer() {
+            const timerContainer = document.getElementById('timer-container');
+            const timerDisplay = document.getElementById('timer-display');
+            
+            timerContainer.addEventListener('click', function() {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    timerContainer.classList.remove('timer-active');
+                    timerDisplay.textContent = formatTime(timerSeconds);
+                    activeTimer = timerSeconds;
+                } else {
+                    timerSeconds = activeTimer || 60;
+                    
+                    timerInterval = setInterval(() => {
+                        timerSeconds--;
+                        timerDisplay.textContent = formatTime(timerSeconds);
+                        
+                        if (timerSeconds <= 0) {
+                            clearInterval(timerInterval);
+                            timerInterval = null;
+                            timerContainer.classList.add('timer-active');
+                            timerDisplay.textContent = '0:00';
+                            
+                            const alarm = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
+                            alarm.play().catch(e => console.log('Não foi possível reproduzir o som:', e));
+                            
+                            setTimeout(() => {
+                                timerContainer.classList.remove('timer-active');
+                                timerDisplay.textContent = formatTime(60);
+                                timerSeconds = 60;
+                                activeTimer = null;
+                            }, 3000);
+                        }
+                    }, 1000);
+                    
+                    timerContainer.classList.add('timer-active');
+                }
+            });
+        }
+        
+        // Configurar botões de tempo rápido
+        function setupQuickTimeButtons() {
+            document.querySelectorAll('.quick-time-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const seconds = parseInt(button.getAttribute('data-seconds'));
+                    
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                    }
+                    
+                    timerSeconds = seconds;
+                    activeTimer = seconds;
+                    document.getElementById('timer-display').textContent = formatTime(timerSeconds);
+                    document.getElementById('timer-container').classList.remove('timer-active');
+                });
+            });
+        }
+        
+        // Inicializar o rastreador GPS
+        function initGPSTracker() {
+            // Carregar histórico
+            loadWorkoutHistory();
+            
+            // Configurar botões
+            document.getElementById('start-tracking').addEventListener('click', startTracking);
+            document.getElementById('stop-tracking').addEventListener('click', stopTracking);
+            document.getElementById('reset-tracking').addEventListener('click', resetTracking);
+            document.getElementById('save-workout').addEventListener('click', saveWorkout);
+        }
+        
+        // Iniciar rastreamento
+        function startTracking() {
+            if (navigator.geolocation) {
+                document.getElementById('start-tracking').disabled = true;
+                document.getElementById('stop-tracking').disabled = false;
+                document.getElementById('reset-tracking').disabled = true;
+                document.getElementById('save-workout').disabled = true;
+                
+                workoutStartTime = new Date();
+                totalDistance = 0;
+                positions = [];
+                
+                // Atualizar display a cada segundo
+                trackingInterval = setInterval(updateDisplay, 1000);
+                
+                // Começar a monitorar posição
+                watchId = navigator.geolocation.watchPosition(
+                    position => {
+                        const { latitude, longitude, accuracy } = position.coords;
+                        const timestamp = new Date(position.timestamp);
+                        const newPosition = { latitude, longitude, timestamp, accuracy };
+                        
+                        if (positions.length > 0) {
+                            const lastPosition = positions[positions.length - 1];
+                            const distance = calculateDistance(
+                                lastPosition.latitude, 
+                                lastPosition.longitude,
+                                latitude,
+                                longitude
+                            );
+                            
+                            // Só adiciona se a precisão for boa (menos de 50 metros)
+                            if (accuracy < 50) {
+                                totalDistance += distance;
+                                positions.push(newPosition);
+                            }
+                        } else {
+                            // Primeira posição
+                            if (accuracy < 50) {
+                                positions.push(newPosition);
+                            }
+                        }
+                        
+                        updateDisplay();
+                    },
+                    error => {
+                        console.error('Erro no GPS:', error);
+                        alert('Erro ao acessar GPS: ' + error.message);
+                        stopTracking();
+                    },
+                    { 
+                        enableHighAccuracy: true, 
+                        maximumAge: 10000, 
+                        timeout: 5000 
+                    }
+                );
+                
+            } else {
+                alert('Geolocalização não é suportada pelo seu navegador.');
+            }
+        }
+        
+        // Parar rastreamento
+        function stopTracking() {
+            clearInterval(trackingInterval);
+            if (watchId) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+            }
+            
+            document.getElementById('start-tracking').disabled = false;
+            document.getElementById('stop-tracking').disabled = true;
+            document.getElementById('reset-tracking').disabled = false;
+            document.getElementById('save-workout').disabled = false;
+        }
+        
+        // Zerar rastreamento
+        function resetTracking() {
+            stopTracking();
+            totalDistance = 0;
+            positions = [];
+            document.getElementById('distance-display').textContent = '0.00 km';
+            document.getElementById('time-display').textContent = '00:00:00';
+            document.getElementById('speed-display').textContent = '0.0 km/h';
+            document.getElementById('reset-tracking').disabled = true;
+            document.getElementById('save-workout').disabled = true;
+        }
+        
+        // Salvar treino
+        function saveWorkout() {
+            const endTime = new Date();
+            const duration = (endTime - workoutStartTime) / 1000; // em segundos
+            
+            const workout = {
+                date: workoutStartTime.toISOString(),
+                duration,
+                distance: totalDistance,
+                positions
+            };
+            
+            savedWorkouts.unshift(workout);
+            localStorage.setItem('runningWorkouts', JSON.stringify(savedWorkouts));
+            loadWorkoutHistory();
+            
+            // Resetar display
+            resetTracking();
+        }
+        
+        // Atualizar display
+        function updateDisplay() {
+            const currentTime = new Date();
+            const elapsedTime = (currentTime - workoutStartTime) / 1000; // em segundos
+            
+            // Atualizar distância
+            const distanceKm = (totalDistance / 1000).toFixed(2);
+            document.getElementById('distance-display').textContent = `${distanceKm} km`;
+            
+            // Atualizar tempo
+            const hours = Math.floor(elapsedTime / 3600);
+            const minutes = Math.floor((elapsedTime % 3600) / 60);
+            const seconds = Math.floor(elapsedTime % 60);
+            document.getElementById('time-display').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Atualizar velocidade (se houver movimento)
+            if (elapsedTime > 0 && totalDistance > 0) {
+                const speed = (totalDistance / 1000) / (elapsedTime / 3600); // km/h
+                document.getElementById('speed-display').textContent = `${speed.toFixed(1)} km/h`;
+            }
+        }
+        
+        // Carregar histórico
+        function loadWorkoutHistory() {
+            const historyContainer = document.getElementById('workout-history');
+            historyContainer.innerHTML = '';
+            
+            if (savedWorkouts.length === 0) {
+                historyContainer.innerHTML = '<p>Nenhum treino salvo ainda.</p>';
+                return;
+            }
+            
+            savedWorkouts.slice(0, 5).forEach((workout, index) => {
+                const workoutElement = document.createElement('div');
+                workoutElement.className = 'workout-entry';
+                
+                const date = new Date(workout.date);
+                const formattedDate = date.toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const distanceKm = (workout.distance / 1000).toFixed(2);
+                const hours = Math.floor(workout.duration / 3600);
+                const minutes = Math.floor((workout.duration % 3600) / 60);
+                const seconds = Math.floor(workout.duration % 60);
+                const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                workoutElement.innerHTML = `
+                    <div class="workout-date">
+                        <span style="font-weight: bold;">${formattedDate}</span>
+                        <button class="delete-workout" data-index="${index}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="workout-stats">
+                        <span>Distância: ${distanceKm} km</span>
+                        <span>Tempo: ${timeString}</span>
+                    </div>
+                `;
+                
+                historyContainer.appendChild(workoutElement);
+            });
+            
+            // Adicionar eventos de clique para deletar
+            document.querySelectorAll('.delete-workout').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = this.getAttribute('data-index');
+                    if (confirm('Tem certeza que deseja excluir este treino?')) {
+                        savedWorkouts.splice(index, 1);
+                        localStorage.setItem('runningWorkouts', JSON.stringify(savedWorkouts));
+                        loadWorkoutHistory();
+                    }
+                });
+            });
+        }
+        
+        // Calcular distância entre coordenadas (em metros)
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3; // raio da Terra em metros
+            const φ1 = lat1 * Math.PI/180;
+            const φ2 = lat2 * Math.PI/180;
+            const Δφ = (lat2-lat1) * Math.PI/180;
+            const Δλ = (lon2-lon1) * Math.PI/180;
+
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            return R * c;
+        }
+        
+        // Funções auxiliares
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+    </script>
+</body>
+</html>
